@@ -64,7 +64,7 @@ const Home: React.FC = () => {
       setSelectedImage(result?.assets![0].uri);
       const imageUri = result?.assets![0].uri;
       result.assets &&
-        navigation.navigate('ImagePreview', {imageFile: imageUri});
+        navigation.navigate('ImagePreview', {imageFile: imageUri || ''});
     }
   }
 

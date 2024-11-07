@@ -3,10 +3,10 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import {Colors} from '@constants/colors';
-import {AppBottomTabParamList, GenerateNavigatorI} from '@models/navigation';
+import {AppStackParamList, GenerateNavigatorI} from '@models/navigation';
 
-const Stack = createNativeStackNavigator<AppBottomTabParamList>();
-const Tab = createBottomTabNavigator<AppBottomTabParamList>();
+const Stack = createNativeStackNavigator<AppStackParamList>();
+const Tab = createBottomTabNavigator<AppStackParamList>();
 
 const GenerateNavigator: React.FC<GenerateNavigatorI> = props => {
   const {initialRouteName, navType, paths} = props;

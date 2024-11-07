@@ -9,7 +9,7 @@ export type AppBottomTabParamList = {
 };
 
 export type AppStackParamList = {
-  ImagePreview: {imageFile: string | undefined};
+  ImagePreview: {imageFile: string};
   TabNavigation: undefined;
 } & AppBottomTabParamList;
 

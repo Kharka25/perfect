@@ -4,17 +4,26 @@ import FastImage from 'react-native-fast-image';
 
 import {Button, Header} from '@components';
 import {ScreenProps} from '@models/navigation';
+import {uploadCat} from '@services';
 
 const ImagePreview: React.FC<ScreenProps<'ImagePreview'>> = props => {
   const {route} = props;
-  const {imageFile} = route.params;
+  const {imageFile} = route?.params;
+
+  async function uploadImage() {
+    await uploadCat(imageFile);
+  }
   return (
     <SafeAreaView style={styles.container}>
       <Header title="Preview" />
       <View style={styles.previewImageContainer}>
         <FastImage source={{uri: imageFile}} style={styles.previewImage} />
       </View>
-      <Button label="Send" />
+      <Button
+        disabled={imageFile.length <= 0} // Disable if no image
+        label="Send"
+        onPress={uploadImage}
+      />
     </SafeAreaView>
   );
 };
