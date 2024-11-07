@@ -1,14 +1,14 @@
 import React from 'react';
-import {SafeAreaView, Text} from 'react-native';
+import {SafeAreaView} from 'react-native';
 
-import {Colors} from '@constants/colors';
+import {Text} from '@components';
 
 interface Props {}
 
 const Home: React.FC<Props> = () => {
   return (
     <SafeAreaView>
-      <Text style={{color: Colors.BLACK}}>Hello Purrfect!!</Text>
+      <Text text="Hello Purrfect" />
     </SafeAreaView>
   );
 };
