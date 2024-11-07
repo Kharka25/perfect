@@ -8,11 +8,14 @@ import {
 } from 'react-native-image-picker';
 
 import {Button, Text} from '@components';
+import {useAppNavigation} from '@models/navigation';
 import {cameraPermission} from '@utils/index';
 
 const Home: React.FC = () => {
-  const [selectedImage, setSelectedImage] = useState<string | undefined>('');
+  const [_selectedImage, setSelectedImage] = useState<string | undefined>('');
   const {showActionSheetWithOptions} = useActionSheet();
+
+  const navigation = useAppNavigation();
 
   function chooseImage() {
     const options = ['Take a Photo', 'Gallery', 'Cancel'];
@@ -59,16 +62,16 @@ const Home: React.FC = () => {
 
     if (!result.didCancel) {
       setSelectedImage(result?.assets![0].uri);
+      const imageUri = result?.assets![0].uri;
+      result.assets &&
+        navigation.navigate('ImagePreview', {imageFile: imageUri});
     }
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <Text text="Welcome to Purrfect Island 🏝️" style={styles.centerText} />
-      <Button
-        label={selectedImage?.length ? 'Use another cat' : 'Add your cat'}
-        onPress={chooseImage}
-      />
+      <Button label={'Add your cat'} onPress={chooseImage} />
     </SafeAreaView>
   );
 };
@@ -81,7 +84,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingHorizontal: '10%',
+    paddingHorizontal: '8%',
   },
 });
 

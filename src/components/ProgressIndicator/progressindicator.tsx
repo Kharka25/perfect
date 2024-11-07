@@ -8,6 +8,7 @@ import Animated, {
 import LoadingIcon from 'react-native-vector-icons/AntDesign';
 
 import {Colors} from '@constants/colors';
+import {StyleSheet} from 'react-native';
 
 interface Props {
   color?: string;
@@ -30,10 +31,14 @@ const ProgressIndicator: React.FC<Props> = props => {
   });
 
   return (
-    <Animated.View style={[transformValue]}>
+    <Animated.View style={[styles.container, transformValue]}>
       <LoadingIcon name="loading1" color={color} size={size} />
     </Animated.View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {},
+});
 
 export default React.memo(ProgressIndicator);

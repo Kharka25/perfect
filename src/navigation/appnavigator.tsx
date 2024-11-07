@@ -4,7 +4,7 @@ import GenerateNavigator from '@config/generatenavigator';
 import {ScreenType} from '@models/navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import {Explore, Home} from '@screens';
+import {Explore, Home, ImagePreview} from '@screens';
 
 const tabs: ScreenType[] = [
   {
@@ -27,9 +27,30 @@ const tabs: ScreenType[] = [
   },
 ];
 
-const AppNavigator: React.FC = () => {
+const TabNavigation: React.FC = () => {
   return (
     <GenerateNavigator initialRouteName="Home" navType="tab" paths={tabs} />
+  );
+};
+
+const stacks: ScreenType[] = [
+  {
+    name: 'ImagePreview',
+    component: ImagePreview,
+  },
+  {
+    name: 'TabNavigation',
+    component: TabNavigation,
+  },
+];
+
+const AppNavigator: React.FC = () => {
+  return (
+    <GenerateNavigator
+      initialRouteName="TabNavigation"
+      navType="stack"
+      paths={stacks}
+    />
   );
 };
 
