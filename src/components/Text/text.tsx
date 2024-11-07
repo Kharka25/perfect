@@ -1,5 +1,11 @@
 import React from 'react';
-import {ColorValue, TextProps, TextStyle, Text as Txt} from 'react-native';
+import {
+  ColorValue,
+  StyleProp,
+  TextProps,
+  TextStyle,
+  Text as Txt,
+} from 'react-native';
 
 import {Colors} from '@constants/colors';
 
@@ -9,6 +15,7 @@ interface Props {
   fontSize?: TextStyle['fontSize'];
   fontWeight?: TextStyle['fontWeight'];
   numberOfLines?: TextProps['numberOfLines'];
+  style?: StyleProp<TextStyle>;
   text: string | number | undefined;
 }
 
@@ -19,12 +26,13 @@ const Text: React.FC<Props> = props => {
     fontSize,
     fontWeight = '400',
     numberOfLines = 1,
+    style,
     text,
   } = props;
   return (
     <Txt
       numberOfLines={numberOfLines}
-      style={[{color, fontFamily, fontSize, fontWeight}]}>
+      style={[style, {color, fontFamily, fontSize, fontWeight}]}>
       {text}
     </Txt>
   );
