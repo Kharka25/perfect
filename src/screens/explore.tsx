@@ -4,26 +4,13 @@ import {
   ListRenderItem,
   SafeAreaView,
   StyleSheet,
-  TouchableOpacity,
   View,
 } from 'react-native';
 
 import {CatCard, ProgressIndicator, Text} from '@components';
 import {Colors} from '@constants/colors';
 import {CatDataI} from '@models/cats';
-import {CatRequestI, VoteType} from '@models/requests';
-import {getCatImages, toggleFavorite, voteCat} from '@services';
-
-const voteCtaData = [
-  {
-    label: 'vote up',
-    type: VoteType.UP_VOTE,
-  },
-  {
-    label: 'vote down',
-    type: VoteType.DOWN_VOTE,
-  },
-];
+import {getCatImages, toggleFavorite} from '@services';
 
 const Explore: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -67,16 +54,6 @@ const Explore: React.FC = () => {
     }
   }
 
-  async function handleVote(imageId: string, type: VoteType) {
-    const voteData: CatRequestI = {
-      image_id: imageId,
-      value: type === VoteType.UP_VOTE ? 1 : -1,
-    };
-
-    const response = await voteCat(voteData);
-    console.log(response, 'HERE');
-  }
-
   const renderEmptyContent = () => {
     return (
       <View>
@@ -94,18 +71,6 @@ const Explore: React.FC = () => {
           style={[styles.catCard, index % 2 === 0 ? styles.mrSm : null]}
           toggleFavorite={() => handleFavorite(item.id)}
         />
-        <View style={styles.voteButtonContainer}>
-          {voteCtaData.map((voteItem, idx) => {
-            return (
-              <TouchableOpacity
-                key={idx}
-                onPress={() => handleVote(item.id, voteItem.type)}
-                style={styles.voteButton}>
-                <Text text={voteItem.label} />
-              </TouchableOpacity>
-            );
-          })}
-        </View>
       </View>
     );
   };
