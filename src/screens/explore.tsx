@@ -1,5 +1,4 @@
-import React, {useCallback, useState} from 'react';
-import {useFocusEffect} from '@react-navigation/native';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   FlatList,
   ListRenderItem,
@@ -11,11 +10,12 @@ import {
 import {CatCard, ProgressIndicator, Text} from '@components';
 import {Colors} from '@constants/colors';
 import {CatDataI} from '@models/cats';
-import {getCatImages} from '@services';
+import {getCatImages, toggleFavorite} from '@services';
 
 const Explore: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [catsList, setCatsList] = useState<CatDataI[]>([]);
+  const [selectedFavouriteId, setSelectedFavouriteId] = useState('');
 
   const fetchCats = useCallback(async () => {
     let responseData: CatDataI[] = [];
@@ -39,6 +39,21 @@ const Explore: React.FC = () => {
     setLoading(false);
   }, []);
 
+  async function handleFavorite(imageId: string) {
+    let response;
+
+    if (selectedFavouriteId.length > 0) {
+      response = await toggleFavorite({favouriteId: selectedFavouriteId});
+      setSelectedFavouriteId('');
+      return;
+    } else if (!selectedFavouriteId.length) {
+      response = await toggleFavorite({data: {image_id: imageId}});
+      const {data} = response;
+      const {id} = data;
+      setSelectedFavouriteId(String(id));
+    }
+  }
+
   const renderEmptyContent = () => {
     return (
       <View>
@@ -49,21 +64,18 @@ const Explore: React.FC = () => {
 
   const renderItem: ListRenderItem<CatDataI> = ({item, index}) => {
     return (
-      <CatCard key={index} height={item.height} id={item.id} url={item.url} />
+      <CatCard
+        key={index}
+        catData={{height: item.height, id: item.id, url: item.url}}
+        style={[styles.catCard, index % 2 === 0 ? styles.mrSm : null]}
+        toggleFavorite={() => handleFavorite(item.id)}
+      />
     );
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      fetchCats();
-
-      const fetchInterval = setInterval(() => {
-        fetchCats();
-      }, 3000);
-
-      return () => clearInterval(fetchInterval);
-    }, [fetchCats]),
-  );
+  useEffect(() => {
+    fetchCats();
+  }, [fetchCats]);
 
   if (loading) {
     return (
@@ -72,24 +84,40 @@ const Explore: React.FC = () => {
       </View>
     );
   }
+
   return (
-    <SafeAreaView>
-      <Text text="Explore" />
+    <SafeAreaView style={styles.container}>
       <FlatList
         data={catsList}
         ListEmptyComponent={renderEmptyContent}
         numColumns={2}
         renderItem={renderItem}
+        style={styles.flatlist}
       />
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  catCard: {
+    marginBottom: 15,
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: '6%',
+    paddingTop: '3%',
+  },
+  flatlist: {
+    gap: '2%',
+  },
   loaderContainer: {
     ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  mrSm: {
+    marginRight: '3%',
   },
 });
 

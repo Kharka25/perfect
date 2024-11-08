@@ -6,7 +6,13 @@ export enum RequestMethodEnum {
 }
 
 export type RequestConfig<T> = {
+  contentType?: string;
   data?: T;
   endpoint: string;
   methodType: RequestMethodEnum;
 };
+
+export interface FavouriteCatI {
+  image_id: string;
+  sub_id?: string;
+}

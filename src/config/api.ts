@@ -5,10 +5,13 @@ import {RequestConfig, RequestMethodEnum} from '@models/requests';
 
 type headers = CreateAxiosDefaults['headers'];
 
-function requestClient(headers?: headers) {
+function requestClient(
+  contentType: string = 'application/json',
+  headers?: headers,
+) {
   const defaultHeaders = {
     'x-api-key': API_KEY,
-    'Content-Type': 'multipart/form-data',
+    'Content-Type': contentType,
     ...headers,
   };
 
@@ -19,7 +22,7 @@ function requestClient(headers?: headers) {
 }
 
 export async function clientRequest<T>(requestConfig: RequestConfig<T>) {
-  const apiIntegration = requestClient();
+  const apiIntegration = requestClient(requestConfig.contentType);
   let response;
   try {
     switch (requestConfig.methodType) {
@@ -53,8 +56,6 @@ export function catchAsyncError(error: any): string {
   let errorMessage = error.message;
   if (isAxiosError(error)) {
     const errorResponse = error.response?.data;
-    console.log(errorResponse, 'ERROR RESPONSE');
-
     if (errorResponse) {
       errorMessage = {
         message: error.response?.data,
