@@ -1,5 +1,6 @@
 export enum EndPoints {
+  FAVORITE_CAT = '/favourites',
   LIST_CATS = '/images/search',
   UPLOAD_CAT = '/images/upload',
-  FAVORITE_CAT = '/favourites',
+  VOTE_CAT = '/votes',
 }

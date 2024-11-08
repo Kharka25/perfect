@@ -1,10 +1,10 @@
 import {clientRequest} from '@config/api';
 import {EndPoints} from '@config/endpoint';
 import {ImageData} from '@models/navigation';
-import {FavouriteCatI, RequestMethodEnum} from '@models/requests';
+import {CatRequestI, RequestMethodEnum} from '@models/requests';
 
 interface FavouritePayload {
-  data?: FavouriteCatI;
+  data?: CatRequestI;
   favouriteId?: string;
 }
 
@@ -46,4 +46,12 @@ export async function toggleFavorite(payload: FavouritePayload) {
       methodType: RequestMethodEnum.DELETE,
     });
   }
+}
+
+export async function voteCat(payload: CatRequestI) {
+  return await clientRequest({
+    endpoint: EndPoints.VOTE_CAT,
+    data: payload,
+    methodType: RequestMethodEnum.POST,
+  });
 }

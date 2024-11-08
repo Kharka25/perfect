@@ -12,7 +12,13 @@ export type RequestConfig<T> = {
   methodType: RequestMethodEnum;
 };
 
-export interface FavouriteCatI {
+export interface CatRequestI {
   image_id: string;
   sub_id?: string;
+  value?: number;
+}
+
+export enum VoteType {
+  DOWN_VOTE = 'down-vote',
+  UP_VOTE = 'up-vote',
 }
