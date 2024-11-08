@@ -30,7 +30,7 @@ const ImagePreview: React.FC<ScreenProps<'ImagePreview'>> = props => {
         <FastImage source={{uri: imageData.uri}} style={styles.previewImage} />
       </View>
       <Button
-        disabled={imageData?.uri!.length <= 0} // Disable if no image
+        disabled={imageData?.uri!.length <= 0}
         inProgress={loading}
         label="Send"
         onPress={uploadImage}
