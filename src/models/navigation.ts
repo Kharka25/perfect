@@ -5,7 +5,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 export type AppBottomTabParamList = {
   Explore: undefined;
-  Home: undefined;
+  Upload: undefined;
 };
 
 export interface ImageData {
