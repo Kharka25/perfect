@@ -62,9 +62,14 @@ const Home: React.FC = () => {
 
     if (!result.didCancel) {
       setSelectedImage(result?.assets![0].uri);
-      const imageUri = result?.assets![0].uri;
       result.assets &&
-        navigation.navigate('ImagePreview', {imageFile: imageUri || ''});
+        navigation.navigate('ImagePreview', {
+          imageData: {
+            name: result?.assets![0].fileName,
+            type: result?.assets![0].type,
+            uri: result?.assets![0].uri,
+          },
+        });
     }
   }
 

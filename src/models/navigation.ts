@@ -8,8 +8,14 @@ export type AppBottomTabParamList = {
   Home: undefined;
 };
 
+export interface ImageData {
+  name?: string;
+  type?: string;
+  uri?: string;
+}
+
 export type AppStackParamList = {
-  ImagePreview: {imageFile: string};
+  ImagePreview: {imageData: ImageData};
   TabNavigation: undefined;
 } & AppBottomTabParamList;
 

@@ -53,9 +53,17 @@ const Explore: React.FC = () => {
     );
   };
 
-  useFocusEffect(() => {
-    fetchCats();
-  });
+  useFocusEffect(
+    useCallback(() => {
+      fetchCats();
+
+      const fetchInterval = setInterval(() => {
+        fetchCats();
+      }, 3000);
+
+      return () => clearInterval(fetchInterval);
+    }, [fetchCats]),
+  );
 
   if (loading) {
     return (
@@ -70,8 +78,8 @@ const Explore: React.FC = () => {
       <FlatList
         data={catsList}
         ListEmptyComponent={renderEmptyContent}
-        renderItem={renderItem}
         numColumns={2}
+        renderItem={renderItem}
       />
     </SafeAreaView>
   );
@@ -79,9 +87,10 @@ const Explore: React.FC = () => {
 
 const styles = StyleSheet.create({
   loaderContainer: {
+    ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     justifyContent: 'center',
   },
 });
 
-export default Explore;
+export default React.memo(Explore);

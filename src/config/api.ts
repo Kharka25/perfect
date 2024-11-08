@@ -1,11 +1,20 @@
+import Axios, {CreateAxiosDefaults, isAxiosError} from 'axios';
+
+import {API_KEY, BASE_URL} from '@env';
 import {RequestConfig, RequestMethodEnum} from '@models/requests';
-import Axios, {isAxiosError} from 'axios';
 
-const BASE_URL = 'https://api.thecatapi.com/v1';
+type headers = CreateAxiosDefaults['headers'];
 
-function requestClient() {
+function requestClient(headers?: headers) {
+  const defaultHeaders = {
+    'x-api-key': API_KEY,
+    'Content-Type': 'multipart/form-data',
+    ...headers,
+  };
+
   return Axios.create({
     baseURL: BASE_URL,
+    headers: defaultHeaders,
   });
 }
 
@@ -42,9 +51,9 @@ export async function clientRequest<T>(requestConfig: RequestConfig<T>) {
 
 export function catchAsyncError(error: any): string {
   let errorMessage = error.message;
-
   if (isAxiosError(error)) {
     const errorResponse = error.response?.data;
+    console.log(errorResponse, 'ERROR RESPONSE');
 
     if (errorResponse) {
       errorMessage = {

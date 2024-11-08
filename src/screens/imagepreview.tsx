@@ -1,26 +1,37 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 import {Button, Header} from '@components';
-import {ScreenProps} from '@models/navigation';
+import {ScreenProps, useAppNavigation} from '@models/navigation';
 import {uploadCat} from '@services';
 
 const ImagePreview: React.FC<ScreenProps<'ImagePreview'>> = props => {
   const {route} = props;
-  const {imageFile} = route?.params;
+  const {imageData} = route?.params;
+
+  const [loading, setLoading] = useState(false);
+  const navigation = useAppNavigation();
 
   async function uploadImage() {
-    await uploadCat(imageFile);
+    setLoading(true);
+    const response = await uploadCat(imageData);
+    const {status} = response;
+
+    if (status === 200) {
+    } //TODO show toast notification
+    setLoading(false);
+    navigation.navigate('TabNavigation');
   }
   return (
     <SafeAreaView style={styles.container}>
       <Header title="Preview" />
       <View style={styles.previewImageContainer}>
-        <FastImage source={{uri: imageFile}} style={styles.previewImage} />
+        <FastImage source={{uri: imageData.uri}} style={styles.previewImage} />
       </View>
       <Button
-        disabled={imageFile.length <= 0} // Disable if no image
+        disabled={imageData?.uri!.length <= 0} // Disable if no image
+        inProgress={loading}
         label="Send"
         onPress={uploadImage}
       />
