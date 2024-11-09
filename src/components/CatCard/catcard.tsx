@@ -40,9 +40,7 @@ const CatCard: React.FC<Props> = props => {
       value: type === VoteType.UP_VOTE ? 1 : -1,
     };
 
-    const response = await voteCat(voteData);
-    const {message} = response.data; //TODO display toast notifation
-    console.log(message, 'HERE');
+    await voteCat(voteData);
     if (type === VoteType.UP_VOTE) {
       setCatScore(prevState => prevState + 1);
     } else {
