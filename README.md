@@ -54,6 +54,6 @@ For proper local development testing, please follow these steps:
 
 1. Sign up to get a unique api key at (https://thecatapi.com/#pricing).
 2. Create a `.env` file in root directory
-3. Add the following value to the `.env` file create:
+3. Add the following as key-value pair to the `.env` file created:
    - `API_KEY` - the api from catapi.
    - `BASE_URL` - https://api.thecatapi.com/v1.
