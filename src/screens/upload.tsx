@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {useActionSheet} from '@expo/react-native-action-sheet';
 import {
   launchImageLibrary,
@@ -74,9 +74,11 @@ const Upload: React.FC = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text text="Welcome to Purrfect Island 🏝️" style={styles.centerText} />
-      <Button label={'Add your cat'} onPress={chooseImage} />
+    <SafeAreaView>
+      <View style={styles.container}>
+        <Text text="Welcome to Purrfect Island 🏝️" style={styles.centerText} />
+        <Button label={'Add your cat'} onPress={chooseImage} />
+      </View>
     </SafeAreaView>
   );
 };
@@ -87,9 +89,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   container: {
-    flex: 1,
+    height: '100%',
     justifyContent: 'center',
-    paddingHorizontal: '8%',
+    marginHorizontal: 20,
   },
 });
 

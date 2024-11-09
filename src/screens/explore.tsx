@@ -29,6 +29,7 @@ const Explore: React.FC = () => {
     setLoading(true);
     const response = await getCatImages();
     const {data, status}: {data: CatDataI[]; status: number} = response;
+    console.log(response, 'HERE');
 
     if (status === 200) {
       for (const cat of data) {
