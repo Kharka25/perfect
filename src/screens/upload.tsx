@@ -11,7 +11,7 @@ import {Button, Text} from '@components';
 import {useAppNavigation} from '@models/navigation';
 import {cameraPermission} from '@utils/index';
 
-const Home: React.FC = () => {
+const Upload: React.FC = () => {
   const [_selectedImage, setSelectedImage] = useState<string | undefined>('');
   const {showActionSheetWithOptions} = useActionSheet();
 
@@ -93,4 +93,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default Upload;

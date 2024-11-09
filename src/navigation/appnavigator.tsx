@@ -4,18 +4,9 @@ import GenerateNavigator from '@config/generatenavigator';
 import {ScreenType} from '@models/navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import {Explore, Home, ImagePreview} from '@screens';
+import {Explore, Upload, ImagePreview} from '@screens';
 
 const tabs: ScreenType[] = [
-  {
-    name: 'Home',
-    component: Home,
-    options: {
-      tabBarIcon: props => {
-        return <Icon name="home" color={props.color} size={20} />;
-      },
-    },
-  },
   {
     name: 'Explore',
     component: Explore,
@@ -25,11 +16,20 @@ const tabs: ScreenType[] = [
       },
     },
   },
+  {
+    name: 'Upload',
+    component: Upload,
+    options: {
+      tabBarIcon: props => {
+        return <Icon name="upload" color={props.color} size={20} />;
+      },
+    },
+  },
 ];
 
 const TabNavigation: React.FC = () => {
   return (
-    <GenerateNavigator initialRouteName="Home" navType="tab" paths={tabs} />
+    <GenerateNavigator initialRouteName="Explore" navType="tab" paths={tabs} />
   );
 };
 

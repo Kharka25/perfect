@@ -11,11 +11,18 @@ import {CatCard, ProgressIndicator, Text} from '@components';
 import {Colors} from '@constants/colors';
 import {CatDataI} from '@models/cats';
 import {getCatImages, toggleFavorite} from '@services';
+import useToast from '@store/toast/hooks';
+import {catchAsyncError} from '@config/api';
+import {isAndroid} from '@utils/index';
 
 const Explore: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [catsList, setCatsList] = useState<CatDataI[]>([]);
+  const [favouriteCats, setFavouriteCats] = useState<string[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
   const [selectedFavouriteId, setSelectedFavouriteId] = useState('');
+
+  const {updateToast} = useToast();
 
   const fetchCats = useCallback(async () => {
     let responseData: CatDataI[] = [];
@@ -40,19 +47,33 @@ const Explore: React.FC = () => {
   }, []);
 
   async function handleFavorite(imageId: string) {
-    let response;
-
-    if (selectedFavouriteId.length > 0) {
-      response = await toggleFavorite({favouriteId: selectedFavouriteId});
-      setSelectedFavouriteId('');
-      return;
-    } else if (!selectedFavouriteId.length) {
-      response = await toggleFavorite({data: {image_id: imageId}});
-      const {data} = response;
-      const {id} = data;
+    if (!favouriteCats.includes(imageId)) {
+      const response = await toggleFavorite({data: {image_id: imageId}});
+      const {id} = response.data;
       setSelectedFavouriteId(String(id));
+      setFavouriteCats(prevState => [...prevState, imageId]);
+      updateToast({message: 'Added to favourites', type: 'success'});
+      return;
+    }
+
+    if (favouriteCats.includes(imageId)) {
+      await toggleFavorite({favouriteId: selectedFavouriteId});
+      setSelectedFavouriteId('');
+      setFavouriteCats(prevState => prevState.filter(item => item !== imageId));
+      updateToast({message: 'Removed from favourites', type: 'success'});
+      return;
     }
   }
+
+  const handleRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    try {
+      await fetchCats();
+    } catch (error) {
+      catchAsyncError(error);
+    }
+    setRefreshing(false);
+  }, [fetchCats]);
 
   const renderEmptyContent = () => {
     return (
@@ -93,6 +114,8 @@ const Explore: React.FC = () => {
         data={catsList}
         ListEmptyComponent={renderEmptyContent}
         numColumns={2}
+        onRefresh={handleRefresh}
+        refreshing={refreshing}
         renderItem={renderItem}
         style={styles.flatlist}
       />
@@ -111,7 +134,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: '6%',
-    paddingTop: '3%',
+    paddingTop: isAndroid ? '5%' : 0,
   },
   flatlist: {
     gap: '2%',
@@ -138,4 +161,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(Explore);
+export default Explore;
