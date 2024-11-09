@@ -77,8 +77,8 @@ const Explore: React.FC = () => {
 
   const renderEmptyContent = () => {
     return (
-      <View>
-        <Text text="Sorry, no feline to explore" />
+      <View style={styles.container}>
+        <Text text="Sorry, no feline to explore" fontSize={18} fontWeight="500" />
       </View>
     );
   };

@@ -30,25 +30,33 @@ const ImagePreview: React.FC<ScreenProps<'ImagePreview'>> = props => {
     navigation.navigate('TabNavigation');
   }
   return (
-    <SafeAreaView style={styles.container}>
-      <Header title="Preview" />
-      <View style={styles.previewImageContainer}>
-        <FastImage source={{uri: imageData.uri}} style={styles.previewImage} />
+    <SafeAreaView>
+      <View style={styles.headerContainer}>
+        <Header title="Preview"  />
       </View>
-      <Button
-        disabled={imageData?.uri!.length <= 0}
-        inProgress={loading}
-        label="Send"
-        onPress={uploadImage}
-      />
+      <View style={styles.container}>
+        <View style={styles.previewImageContainer}>
+          <FastImage source={{uri: imageData.uri}} style={styles.previewImage} />
+        </View>
+        <Button
+          disabled={imageData?.uri!.length <= 0}
+          inProgress={loading}
+          label="Send"
+          onPress={uploadImage}
+        />
+      </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    justifyContent: 'center',
     paddingHorizontal: '8%',
     paddingTop: isAndroid ? '5%' : 0,
+  },
+  headerContainer: {
+    paddingHorizontal: '8%',
   },
   previewImageContainer: {
     borderRadius: 12,
