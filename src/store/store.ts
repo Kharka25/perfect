@@ -1,7 +1,11 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import {persistStore} from 'redux-persist';
 
-const rootReducer = combineReducers({});
+import toastReducer from './toast/toast';
+
+const rootReducer = combineReducers({
+  toast: toastReducer,
+});
 
 export const store = configureStore({reducer: rootReducer});
 

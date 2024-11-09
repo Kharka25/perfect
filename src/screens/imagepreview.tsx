@@ -5,6 +5,8 @@ import FastImage from 'react-native-fast-image';
 import {Button, Header} from '@components';
 import {ScreenProps, useAppNavigation} from '@models/navigation';
 import {uploadCat} from '@services';
+import useToast from '@store/toast/hooks';
+import {isAndroid} from '@utils/index';
 
 const ImagePreview: React.FC<ScreenProps<'ImagePreview'>> = props => {
   const {route} = props;
@@ -12,15 +14,19 @@ const ImagePreview: React.FC<ScreenProps<'ImagePreview'>> = props => {
 
   const [loading, setLoading] = useState(false);
   const navigation = useAppNavigation();
+  const {updateToast} = useToast();
 
   async function uploadImage() {
     setLoading(true);
     const response = await uploadCat(imageData);
     const {status} = response;
 
-    if (status === 200) {
-    } //TODO show toast notification
     setLoading(false);
+    if (status === 201) {
+      updateToast({message: 'Upload successful', type: 'success'});
+    } else {
+      updateToast({message: 'Failed to upload', type: 'error'});
+    }
     navigation.navigate('TabNavigation');
   }
   return (
@@ -42,10 +48,12 @@ const ImagePreview: React.FC<ScreenProps<'ImagePreview'>> = props => {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: '8%',
+    paddingTop: isAndroid ? '5%' : 0,
   },
   previewImageContainer: {
     borderRadius: 12,
     height: '60%',
+    marginVertical: '3%',
     paddingHorizontal: '3%',
   },
   previewImage: {

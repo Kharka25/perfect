@@ -4,5 +4,6 @@ export enum Colors {
   FAVOURITE_PINK = '#F25562',
   GREY_10 = '#E8E8E8',
   PRIMARY = '#54408C',
+  RED = '#EF5A56',
   WHITE = '#FFF',
 }
