@@ -50,7 +50,7 @@ This is one way to run your app — you can also run it directly from within And
 
 To prevent exposure of enviroment variables, the `.env` file is ignored by `git` which might affect testing in different local enviroment.
 
-For proper local development testing, please follow the following steps:
+For proper local development testing, please follow these steps:
 
 1. Sign up to get a unique api key at (https://thecatapi.com/#pricing).
 2. Create a `.env` file in root directory
